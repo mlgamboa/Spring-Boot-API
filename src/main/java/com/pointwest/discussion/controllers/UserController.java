@@ -28,4 +28,16 @@ public class UserController {
         return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
 
+    // Delete user
+    @RequestMapping(value = "/users/{userid}", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> deleteUser(@PathVariable Long userid){
+        return userService.deleteUser(userid);
+    }
+
+    // Update user
+    @RequestMapping(value = "/users/{userid}", method = RequestMethod.PUT)
+    public ResponseEntity<Object> updateUser(@PathVariable Long userid, @RequestBody User user){
+        return userService.updateUser(userid, user);
+    }
+
 }
