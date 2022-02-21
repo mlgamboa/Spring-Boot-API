@@ -21,14 +21,22 @@ public class Post {
     private String title;
     @Column
     private String content;
+    @Column
+    private boolean active = true;
+
+    // Annotating the user property, establishes the relationship to the post model
+    @ManyToOne()
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     // Constructors
     public Post() {
     }
 
-    public Post( String title, String content) {
+    public Post(String title, String content, boolean active) {
         this.title = title;
         this.content = content;
+        this.active = active;
     }
 
     // Getters and Setters
@@ -54,5 +62,21 @@ public class Post {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

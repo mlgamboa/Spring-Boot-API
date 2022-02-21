@@ -19,10 +19,11 @@ public class PostController {
 
     // Create a post
     @RequestMapping(value="/posts", method = RequestMethod.POST)
-    public ResponseEntity<Object> createPost(@RequestBody Post post){
-        postService.createPost(post);
-        return new ResponseEntity<>("Post created successfully", HttpStatus.CREATED);
+    public ResponseEntity<Object> createPost(
+           @RequestHeader(value = "Authorization") String stringToken, @RequestBody Post post){
+        return postService.createPost(stringToken, post);
     }
+
 
     // Get all posts
     @RequestMapping(value = "/posts", method = RequestMethod.GET)
@@ -30,16 +31,41 @@ public class PostController {
         return new ResponseEntity<>(postService.getPosts(), HttpStatus.OK);
     }
 
+
+
     // Delete post id
     @RequestMapping(value = "/posts/{postid}", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> deletePost(@PathVariable Long postid){
-        return postService.deletePost(postid);
+    public ResponseEntity<Object> deletePost(@PathVariable Long postid, @RequestHeader(value = "Authorization") String stringToken){
+        return postService.deletePost(postid, stringToken);
     }
+
+
 
     // Update post id
     @RequestMapping(value = "/posts/{postid}", method = RequestMethod.PUT)
-    public ResponseEntity<Object> updatePost(@PathVariable Long postid, @RequestBody Post post){
-        return postService.updatePost(postid, post);
+    public ResponseEntity<Object> updatePost(@PathVariable Long postid, @RequestBody Post post, @RequestHeader(value = "Authorization") String stringToken){
+        return postService.updatePost(postid, post, stringToken);
     }
 
+
+    // Archive
+    @RequestMapping(value = "/posts/archive/{postid}",method = RequestMethod.PUT)
+    public ResponseEntity archivePost (@PathVariable Long postid){
+        return postService.archivePost(postid);
+    }
+
+
+
+    // Get active posts
+    @RequestMapping(value = "/activePosts", method = RequestMethod.GET)
+    public ResponseEntity getActivePosts(){
+        return postService.getActivePosts();
+    }
+
+
+    // Get posts of certain users
+    @RequestMapping(value = "/myPosts", method = RequestMethod.GET)
+    public ResponseEntity<Object> getMyPosts(@RequestHeader(value = "Authorization") String stringToken){
+        return new ResponseEntity<>(postService.getMyPosts(stringToken), HttpStatus.OK);
+    }
 }

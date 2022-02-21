@@ -1,6 +1,9 @@
 package com.pointwest.discussion.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name="users")
@@ -14,6 +17,14 @@ public class User {
     @Column
     private String password;
 
+    // Annotating the posts property, establishes the relationship to the user model
+    @OneToMany(mappedBy = "user")
+    // prevent the posts field to be printed out
+    // posts attribute will not be included during serialization/deserialization
+    @JsonIgnore
+    // set class is a collection that contains no duplicate elements
+    private Set<Post> posts;
+
     public User() {
     }
 
@@ -24,10 +35,6 @@ public class User {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getUsername() {
@@ -44,5 +51,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(Set<Post> posts) {
+        this.posts = posts;
     }
 }

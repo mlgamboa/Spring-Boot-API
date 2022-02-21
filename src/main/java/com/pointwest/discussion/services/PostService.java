@@ -5,12 +5,21 @@ import org.springframework.http.ResponseEntity;
 
 public interface PostService {
     // Create
-    void createPost(Post post);
+    ResponseEntity createPost(String stringToken, Post post);
     // Retrieve
     Iterable<Post> getPosts();
     // Delete
-    ResponseEntity deletePost(Long id);
+    ResponseEntity deletePost(Long id, String stringToken);
     // Update
-    ResponseEntity updatePost(Long id, Post post);
+    ResponseEntity updatePost(Long id, Post post, String stringToken);
+    // Archive
+    ResponseEntity archivePost(Long id);
+    // Retrieve active post
+    ResponseEntity getActivePosts();
+    // Retrieving posts of certain users
+    Iterable<Post> getMyPosts(String stringToken);
+
+
+
 
 }
